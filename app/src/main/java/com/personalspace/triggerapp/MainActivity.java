@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements RemoteSession.Rem
                     body.put("data", distanceData);
 
                     session.sendMessage(participant1, body, MainActivity.this);
+                    session.sendMessage(participant2, body, MainActivity.this);
                 } catch (JSONException e){
                     e.printStackTrace();
                 }
@@ -82,9 +83,12 @@ public class MainActivity extends AppCompatActivity implements RemoteSession.Rem
 
     @Override
     public void onActionComplete(String tag, ResponseEntity<String> response) {
+        // Do we need to do something here?
+        /*
         if (response.getStatusCode() == HttpStatus.OK && tag.equals("send_message")){
 
         }
+        */
     }
 
     @Override
