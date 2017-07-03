@@ -1,5 +1,6 @@
 package com.personalspace.triggerapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -7,10 +8,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SeekBar;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements RemoteSession.RemoteSessionDelegate{
 
     private SeekBar distance = null;
+
+    RemoteSession session = null;
+    String sessionName = null;
+    String participant1, participant2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +29,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         distance = (SeekBar)findViewById(R.id.seekBar5);
 
+        //request remote session start
+        Intent intent = getIntent();
+        sessionName = intent.getStringExtra("sessionName");
+        session = RemoteSession.getInstance(sessionName);
+
+        participant1 = intent.getStringExtra("participant1");
+        participant2 = intent.getStringExtra("participant2");
+
+        Thread workerThread = new Thread(session);
+        workerThread.start();
 
 /*        @Override
         protected void onStart(){
@@ -41,13 +61,30 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Integer.toString(seekBar.getProgress());
+                double distance = (double) seekBar.getProgress();
 
+                try {
+                    JSONObject body = new JSONObject();
+                    JSONObject distanceData = new JSONObject();
+                    distanceData.put("distance", distance);
+                    body.put("data", distanceData);
+
+                    session.sendMessage(participant1, body, MainActivity.this);
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
             }
         });
 
         setSupportActionBar(toolbar);
 
+    }
+
+    @Override
+    public void onActionComplete(String tag, ResponseEntity<String> response) {
+        if (response.getStatusCode() == HttpStatus.OK && tag.equals("send_message")){
+
+        }
     }
 
     @Override
