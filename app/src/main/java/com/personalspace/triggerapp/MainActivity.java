@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements RemoteSession.Rem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         distance = (SeekBar)findViewById(R.id.seekBar5);
