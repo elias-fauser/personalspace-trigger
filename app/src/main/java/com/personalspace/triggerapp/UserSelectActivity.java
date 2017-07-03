@@ -3,6 +3,7 @@ package com.personalspace.triggerapp;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -31,8 +32,10 @@ public class UserSelectActivity extends AppCompatActivity implements RemoteSessi
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dialog = new ProgressDialog(this);
+
         setContentView(R.layout.activity_user_select);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -62,6 +65,14 @@ public class UserSelectActivity extends AppCompatActivity implements RemoteSessi
         String participant2 = participant2View.getSelectedItem().toString();
 
         // Check if selection was complete
+        if (participant1 == null || participant2 == null){
+            Toast.makeText(this, "Please choose participants!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (participant1.equals(participant2)){
+            Toast.makeText(this, "Participants can not be the same!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // Launch Main activity
         Intent mainActivityIntent = new Intent(this, UserSelectActivity.class);
@@ -69,6 +80,7 @@ public class UserSelectActivity extends AppCompatActivity implements RemoteSessi
         mainActivityIntent.putExtra("participant1", participant1);
         mainActivityIntent.putExtra("participant2", participant2);
         startActivity(mainActivityIntent);
+        finish();
 
     }
 
@@ -90,7 +102,7 @@ public class UserSelectActivity extends AppCompatActivity implements RemoteSessi
                         users[i] = item.getString("name");
                     }
 
-                    listAdapter = new ArrayAdapter<String>(this, R.layout.activity_user_select, users);
+                    listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, users);
 
                     runOnUiThread(new Runnable() {
                         @Override

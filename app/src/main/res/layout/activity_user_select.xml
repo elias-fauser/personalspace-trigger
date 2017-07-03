@@ -7,13 +7,17 @@
     android:padding="10dp"
     tools:context="com.personalspace.triggerapp.UserSelectActivity">
 
-    <EditText
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <TextView
         android:id="@+id/editText2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
         android:text="Please provide the two participants:"
+        android:textSize="15pt"
         android:lines="1"
         tools:layout_editor_absoluteX="93dp"
         tools:layout_editor_absoluteY="-27dp" />
@@ -23,28 +27,34 @@
         android:layout_height="10dp"
         android:layout_centerVertical="true"/>
 
-    <EditText
+    <TextView
         android:id="@+id/participantOneListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
         android:text="Participant 1"
         android:lines="1"
+        android:textStyle="bold"
         tools:layout_editor_absoluteX="93dp"
         tools:layout_editor_absoluteY="-27dp" />
 
     <ListView
         android:id="@+id/observerListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:choiceMode="singleChoice"
+        android:scrollbarAlwaysDrawVerticalTrack="true" />
 
-    <EditText
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_centerVertical="true"/>
+
+    <TextView
         android:id="@+id/participantTwoListView"
         android:layout_width="match_parent"
+        android:textStyle="bold"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
         android:text="Participant 2"
         android:lines="1"
         tools:layout_editor_absoluteX="93dp"
@@ -52,8 +62,9 @@
 
     <ListView
         android:id="@+id/observedListView"
+        android:choiceMode="singleChoice"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 
     <Space
         android:layout_width="match_parent"
@@ -68,5 +79,5 @@
         android:onClick="onSubmit"
         android:id="@+id/button_start"
         android:layout_below="@+id/spacer"/>
-
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
