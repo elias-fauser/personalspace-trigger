@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,21 +19,26 @@ import org.springframework.http.ResponseEntity;
 public class UserSelectActivity extends AppCompatActivity implements RemoteSession.RemoteSessionDelegate{
 
     RemoteSession session = null;
+    String sessionName = null;
     ProgressDialog dialog;
 
     ArrayAdapter<String> listAdapter = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        super.onNewIntent(intent);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         setContentView(R.layout.activity_user_select);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Intent intent = getIntent();
-        String sessionName = intent.getStringExtra("sessionName");
-
         //request remote session start
+        sessionName = getIntent().getStringExtra("sessionName");
         session = RemoteSession.getInstance(sessionName);
 
         Thread workerThread = new Thread(session);
@@ -45,8 +51,6 @@ public class UserSelectActivity extends AppCompatActivity implements RemoteSessi
         dialog.setCancelable(false);
         dialog.show();
     }
-
-
 
     public void onSubmit(View view){
 
@@ -61,6 +65,7 @@ public class UserSelectActivity extends AppCompatActivity implements RemoteSessi
 
         // Launch Main activity
         Intent mainActivityIntent = new Intent(this, UserSelectActivity.class);
+        mainActivityIntent.putExtra("sessionName", sessionName);
         mainActivityIntent.putExtra("participant1", participant1);
         mainActivityIntent.putExtra("participant2", participant2);
         startActivity(mainActivityIntent);
@@ -69,14 +74,14 @@ public class UserSelectActivity extends AppCompatActivity implements RemoteSessi
 
     @Override
     public void onActionComplete(String tag, ResponseEntity<String> response) {
-        if (response.getStatusCode() == HttpStatus.ACCEPTED){
+        if (response.getStatusCode() == HttpStatus.OK){
             if (tag.equals("get_users")){
                 try {
+
+                    dialog.dismiss();
+
                     JSONArray body = new JSONArray(response.getBody());
                     JSONObject item;
-
-                    ListView observedView = (ListView)findViewById(R.id.observedListView);
-                    ListView observerView = (ListView) findViewById(R.id.observerListView);
 
                     String[] users = new String[body.length()];
 
@@ -86,14 +91,23 @@ public class UserSelectActivity extends AppCompatActivity implements RemoteSessi
                     }
 
                     listAdapter = new ArrayAdapter<String>(this, R.layout.activity_user_select, users);
-                    observedView.setAdapter(listAdapter);
-                    observerView.setAdapter(listAdapter);
 
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ListView observedView = (ListView)findViewById(R.id.observedListView);
+                            ListView observerView = (ListView) findViewById(R.id.observerListView);
+
+                            observedView.setAdapter(listAdapter);
+                            observerView.setAdapter(listAdapter);
+                        }
+                    });
                 }
                 catch (JSONException e){
                     e.printStackTrace();
                 }
             }
         }
+
     }
 }

@@ -63,8 +63,10 @@ public class StartActivity extends AppCompatActivity implements RemoteSession.Re
             });
 
             Intent selectUserIntent = new Intent(this, UserSelectActivity.class);
-            selectUserIntent.putExtra("sessionName", sessionName.getText());
+            selectUserIntent.putExtra("sessionName", (String) sessionName.getText().toString());
+            selectUserIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(selectUserIntent);
+            finish();
 
         } else {
             runOnUiThread(new Runnable() {
