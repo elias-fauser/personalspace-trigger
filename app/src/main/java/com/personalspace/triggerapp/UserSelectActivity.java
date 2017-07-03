@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -25,6 +26,22 @@ public class UserSelectActivity extends AppCompatActivity implements RemoteSessi
 
     ArrayAdapter<String> listAdapter = null;
 
+    String selectedUser1, selectedUser2;
+    AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (listAdapter != null){
+
+                if (parent.getId() == R.id.observedListView){
+                    selectedUser1 = listAdapter.getItem(position);
+                }
+                else if (parent.getId() == R.id.observerListView){
+                    selectedUser2 = listAdapter.getItem(position);
+                }
+            }
+        }
+    };
+
     @Override
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
@@ -39,6 +56,12 @@ public class UserSelectActivity extends AppCompatActivity implements RemoteSessi
         setContentView(R.layout.activity_user_select);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ListView participant1View = (ListView)findViewById(R.id.observedListView);
+        ListView participant2View = (ListView) findViewById(R.id.observerListView);
+
+        participant1View.setOnItemClickListener(listener);
+        participant2View.setOnItemClickListener(listener);
 
         //request remote session start
         sessionName = getIntent().getStringExtra("sessionName");
@@ -57,19 +80,12 @@ public class UserSelectActivity extends AppCompatActivity implements RemoteSessi
 
     public void onSubmit(View view){
 
-        // Get selected participants
-        ListView participant1View = (ListView)findViewById(R.id.observedListView);
-        ListView participant2View = (ListView) findViewById(R.id.observerListView);
-
-        String participant1 = participant1View.getSelectedItem().toString();
-        String participant2 = participant2View.getSelectedItem().toString();
-
         // Check if selection was complete
-        if (participant1 == null || participant2 == null){
+        if (selectedUser1 == null || selectedUser2 == null){
             Toast.makeText(this, "Please choose participants!", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (participant1.equals(participant2)){
+        if (selectedUser1.equals(selectedUser2)){
             Toast.makeText(this, "Participants can not be the same!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -77,8 +93,8 @@ public class UserSelectActivity extends AppCompatActivity implements RemoteSessi
         // Launch Main activity
         Intent mainActivityIntent = new Intent(this, UserSelectActivity.class);
         mainActivityIntent.putExtra("sessionName", sessionName);
-        mainActivityIntent.putExtra("participant1", participant1);
-        mainActivityIntent.putExtra("participant2", participant2);
+        mainActivityIntent.putExtra("participant1", selectedUser1);
+        mainActivityIntent.putExtra("participant2", selectedUser2);
         startActivity(mainActivityIntent);
         finish();
 
