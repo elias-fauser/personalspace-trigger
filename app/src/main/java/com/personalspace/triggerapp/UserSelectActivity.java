@@ -91,7 +91,7 @@ public class UserSelectActivity extends AppCompatActivity implements RemoteSessi
         }
 
         // Launch Main activity
-        Intent mainActivityIntent = new Intent(this, UserSelectActivity.class);
+        Intent mainActivityIntent = new Intent(this, MainActivity.class);
         mainActivityIntent.putExtra("sessionName", sessionName);
         mainActivityIntent.putExtra("participant1", selectedUser1);
         mainActivityIntent.putExtra("participant2", selectedUser2);
