@@ -12,10 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.personalspace.triggerapp.MainActivity" />
+        <activity
+            android:name="com.personalspace.triggerapp.MainActivity"
+            android:launchMode="singleTop" />
+
         <activity
             android:name="com.personalspace.triggerapp.StartActivity"
-            android:label="@string/app_name"
+            android:label="startActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +29,7 @@
         <activity
             android:name="com.personalspace.triggerapp.UserSelectActivity"
             android:label="@string/title_activity_user_select"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
