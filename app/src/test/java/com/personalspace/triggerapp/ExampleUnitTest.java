@@ -1,4 +1,4 @@
-package com.personalspace.personalspace;
+package com.personalspace.triggerapp;
 
 import org.junit.Test;
 

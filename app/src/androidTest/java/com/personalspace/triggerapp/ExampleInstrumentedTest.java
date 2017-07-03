@@ -1,4 +1,4 @@
-package com.personalspace.personalspace;
+package com.personalspace.triggerapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

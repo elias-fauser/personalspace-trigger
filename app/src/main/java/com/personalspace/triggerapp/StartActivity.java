@@ -1,14 +1,13 @@
-package com.personalspace.personalspace;
+package com.personalspace.triggerapp;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.personalspace.personalspace.R;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,10 +58,14 @@ public class StartActivity extends AppCompatActivity implements RemoteSession.Re
                 @Override
                 public void run() {
                     dialog.dismiss();
-                    //TODO start another activity to show the available users
                     Log.d(TAG, "run: Session Started");
                 }
             });
+
+            Intent selectUserIntent = new Intent(this, UserSelectActivity.class);
+            selectUserIntent.putExtra("sessionName", sessionName.getText());
+            startActivity(selectUserIntent);
+
         } else {
             runOnUiThread(new Runnable() {
                 @Override

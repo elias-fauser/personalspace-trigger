@@ -1,14 +1,13 @@
-package com.personalspace.personalspace;
+package com.personalspace.triggerapp;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.JsonReader;
 import android.view.View;
-import android.widget.ExpandableListView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +20,8 @@ public class UserSelectActivity extends AppCompatActivity implements RemoteSessi
     RemoteSession session = null;
     ProgressDialog dialog;
 
+    ArrayAdapter<String> listAdapter = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +29,8 @@ public class UserSelectActivity extends AppCompatActivity implements RemoteSessi
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        String sessionName = savedInstanceState.getString("session");
+        Intent intent = getIntent();
+        String sessionName = intent.getStringExtra("sessionName");
 
         //request remote session start
         session = RemoteSession.getInstance(sessionName);
@@ -45,6 +47,26 @@ public class UserSelectActivity extends AppCompatActivity implements RemoteSessi
     }
 
 
+
+    public void onSubmit(View view){
+
+        // Get selected participants
+        ListView participant1View = (ListView)findViewById(R.id.observedListView);
+        ListView participant2View = (ListView) findViewById(R.id.observerListView);
+
+        String participant1 = participant1View.getSelectedItem().toString();
+        String participant2 = participant2View.getSelectedItem().toString();
+
+        // Check if selection was complete
+
+        // Launch Main activity
+        Intent mainActivityIntent = new Intent(this, UserSelectActivity.class);
+        mainActivityIntent.putExtra("participant1", participant1);
+        mainActivityIntent.putExtra("participant2", participant2);
+        startActivity(mainActivityIntent);
+
+    }
+
     @Override
     public void onActionComplete(String tag, ResponseEntity<String> response) {
         if (response.getStatusCode() == HttpStatus.ACCEPTED){
@@ -53,13 +75,19 @@ public class UserSelectActivity extends AppCompatActivity implements RemoteSessi
                     JSONArray body = new JSONArray(response.getBody());
                     JSONObject item;
 
-                    ExpandableListView observedView = (ExpandableListView)findViewById(R.id.observedListView);
-                    ExpandableListView observerView = (ExpandableListView) findViewById(R.id.observerListView);
+                    ListView observedView = (ListView)findViewById(R.id.observedListView);
+                    ListView observerView = (ListView) findViewById(R.id.observerListView);
+
+                    String[] users = new String[body.length()];
 
                     for (int i = 0; i < body.length(); i++) {
                         item = body.getJSONObject(i);
-
+                        users[i] = item.getString("name");
                     }
+
+                    listAdapter = new ArrayAdapter<String>(this, R.layout.activity_user_select, users);
+                    observedView.setAdapter(listAdapter);
+                    observerView.setAdapter(listAdapter);
 
                 }
                 catch (JSONException e){

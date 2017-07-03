@@ -1,4 +1,4 @@
-package com.personalspace.personalspace;
+package com.personalspace.triggerapp;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,8 +13,6 @@ import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.net.URI;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

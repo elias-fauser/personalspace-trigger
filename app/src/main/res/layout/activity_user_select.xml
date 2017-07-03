@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    tools:context="com.personalspace.personalspace.UserSelectActivity">
-
+    tools:context="com.personalspace.triggerapp.UserSelectActivity">
 
     <EditText
         android:id="@+id/editText2"
@@ -19,19 +18,42 @@
         tools:layout_editor_absoluteX="93dp"
         tools:layout_editor_absoluteY="-27dp" />
 
-    <ExpandableListView
-        android:id="@+id/observedListView"
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_centerVertical="true"/>
+
+    <EditText
+        android:id="@+id/participantOneListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp" />
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Participant 1"
+        android:lines="1"
+        tools:layout_editor_absoluteX="93dp"
+        tools:layout_editor_absoluteY="-27dp" />
 
-    <ExpandableListView
+    <ListView
         android:id="@+id/observerListView"
         android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <EditText
+        android:id="@+id/participantTwoListView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp" />
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Participant 2"
+        android:lines="1"
+        tools:layout_editor_absoluteX="93dp"
+        tools:layout_editor_absoluteY="-27dp" />
+
+    <ListView
+        android:id="@+id/observedListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <Space
         android:layout_width="match_parent"
@@ -43,7 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/submit"
-        android:onClick="onStartSession"
+        android:onClick="onSubmit"
         android:id="@+id/button_start"
         android:layout_below="@+id/spacer"/>
 
