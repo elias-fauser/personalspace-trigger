@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_main">
 
     <LinearLayout
-        android:layout_width="585dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="8dp"
@@ -47,7 +47,7 @@
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="100px"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="MinValue" />
 
@@ -58,7 +58,7 @@
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="100px"
+                android:layout_width="wrap_content"
                 android:textAlignment="textEnd"
                 android:layout_height="wrap_content"
                 android:text="MaxValue" />
