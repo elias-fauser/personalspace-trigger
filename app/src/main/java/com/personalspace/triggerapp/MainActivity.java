@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements RemoteSession.Rem
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         distance = (SeekBar)findViewById(R.id.seekBar5);
 
         //request remote session start
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements RemoteSession.Rem
                 double distance = (double) seekBar.getProgress();
 
                 try {
-                    JSONObject body = new JSONObject();
+                     JSONObject body = new JSONObject();
                     JSONObject distanceData = new JSONObject();
                     distanceData.put("distance", distance);
                     body.put("data", distanceData);
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements RemoteSession.Rem
             }
         });
 
-        setSupportActionBar(toolbar);
+        // setSupportActionBar(toolbar);
 
     }
 

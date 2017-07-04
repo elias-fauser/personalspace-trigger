@@ -22,15 +22,10 @@
             android:ems="10"
             android:textSize="14pt"
             android:textAlignment="center"
+            android:paddingBottom="60px"
             android:text="Distance between user 1 and user 2"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="-23dp" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="23dp"
-            tools:layout_editor_absoluteY="0dp"
-            tools:layout_editor_absoluteX="8dp" />
 
         <SeekBar
             android:id="@+id/seekBar5"
